@@ -12,5 +12,6 @@ import { validate } from './env.validation.js';
     }),
   ],
   providers: [AppConfigService],
+  exports: [AppConfigService]
 })
 export class AppConfigModule {}

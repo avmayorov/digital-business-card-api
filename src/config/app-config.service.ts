@@ -8,4 +8,8 @@ export class AppConfigService {
   get port(): number {
     return this._config.getOrThrow<number>('PORT');
   }
+
+  get databaseUrl(): string {
+    return this._config.getOrThrow<string>('DATABASE_URL');
+  }
 }
