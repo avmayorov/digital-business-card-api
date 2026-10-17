@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { AppConfigModule } from './config/app-config.module.js';
+import { PrismaModule } from './prisma/prisma.module.js';
 
 @Module({
-  imports: [AppConfigModule],
+  imports: [AppConfigModule, PrismaModule],
   controllers: [],
   providers: [],
 })

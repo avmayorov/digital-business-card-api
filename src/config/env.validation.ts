@@ -1,5 +1,12 @@
 import { plainToInstance } from 'class-transformer';
-import { IsInt, IsOptional, Max, Min, validateSync } from 'class-validator';
+import {
+  IsInt,
+  IsOptional,
+  IsString,
+  Max,
+  Min,
+  validateSync,
+} from 'class-validator';
 import { DEFAULT_PORT } from './env.default.js';
 
 class EnvironmentVariables {
@@ -8,6 +15,9 @@ class EnvironmentVariables {
   @Min(1)
   @Max(65535)
   PORT: number = DEFAULT_PORT;
+
+  @IsString()
+  DATABASE_URL: string;
 }
 
 export function validate(config: Record<string, unknown>) {
