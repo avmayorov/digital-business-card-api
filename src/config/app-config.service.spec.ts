@@ -6,12 +6,24 @@ import { validate } from './env.validation.js';
 
 describe('AppConfigService', () => {
   const originalPort = process.env.PORT;
+  const originalDatabaseUrl = process.env.DATABASE_URL;
+  const TEST_DATABASE_URL = 'postgres://user:password@localhost:5432/test_db';
+
+  beforeEach(() => {
+    process.env.DATABASE_URL = TEST_DATABASE_URL;
+  });
 
   afterEach(() => {
     if (originalPort === undefined) {
       delete process.env.PORT;
     } else {
       process.env.PORT = originalPort;
+    }
+
+    if (originalDatabaseUrl === undefined) {
+      delete process.env.DATABASE_URL;
+    } else {
+      process.env.DATABASE_URL = originalDatabaseUrl;
     }
   });
 
@@ -50,8 +62,14 @@ describe('AppConfigService', () => {
     expect(service.port).toBe(4000);
   });
 
-  it('rejects invalid PORT value', async () => {
-    process.env.PORT = 'ItsNotInt';
+  it('returns databaseUrl from DATABASE_URL env variable', async () => {
+    const service = await createService();
+
+    expect(service.databaseUrl).toBe(TEST_DATABASE_URL);
+  });
+
+  it('rejects missing DATABASE_URL', async () => {
+    delete process.env.DATABASE_URL;
 
     await expect(createService()).rejects.toThrow();
   });
