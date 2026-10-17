@@ -5,7 +5,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: digital_сard
+      POSTGRES_DB: digital_card
     ports:
       - '5432:5432'
     volumes:
