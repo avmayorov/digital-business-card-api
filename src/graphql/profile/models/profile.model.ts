@@ -1,7 +1,9 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { ExperienceModel } from './experience.model.js';
+import { SkillModel } from './skill.model.js';
 
 @ObjectType()
-export class ProfileModel {
+export class BaseProfileModel {
   @Field(() => Int)
   id: number;
 
@@ -25,4 +27,22 @@ export class ProfileModel {
 
   @Field()
   updatedAt: Date;
+}
+
+@ObjectType()
+export class ProfileModel extends BaseProfileModel {
+  @Field(() => [SkillModel])
+  skills: SkillModel[];
+
+  @Field(() => [ExperienceModel])
+  experiences: ExperienceModel[];
+}
+
+@ObjectType()
+export class ProfilesPageModel {
+  @Field(() => [BaseProfileModel])
+  items: BaseProfileModel[];
+
+  @Field(() => Int)
+  totalCount: number;
 }
