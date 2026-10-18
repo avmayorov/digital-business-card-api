@@ -1,5 +1,6 @@
 [
   {
+    "id": 1,
     "name": "Майоров Александр",
     "description": "Fullstack-разработчик. Более 10 лет опыта разработки веб-платформ, десктопных и мобильных приложений. Работал с Angular, Vue 2/3, React, Node.js (Express, NestJS). Руководил отделом веб-разработки, был тим-лидом проектов.",
     "githubUrl": "https://github.com/avmayorov",
