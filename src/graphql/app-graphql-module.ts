@@ -7,10 +7,11 @@ import {
 } from '@apollo/server/plugin/landingPage/default';
 import { AppConfigModule } from '../config/app-config.module.js';
 import { AppConfigService } from '../config/app-config.service.js';
-import { HealthResolver } from './health/health.resolver.js';
+import { ProfileModule } from './profile/profile.module.js';
 
 @Module({
   imports: [
+    ProfileModule,
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
       imports: [AppConfigModule],
@@ -26,6 +27,5 @@ import { HealthResolver } from './health/health.resolver.js';
       }),
     }),
   ],
-  providers: [HealthResolver],
 })
 export class AppGraphQLModule {}
