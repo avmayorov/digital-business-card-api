@@ -26,6 +26,7 @@ type ExperienceJson = {
 };
 
 type ProfileJson = {
+  id: number;
   name: string;
   description: string;
   githubUrl?: string | null;
@@ -41,8 +42,11 @@ type CompanyJson = {
   websiteUrl?: string | null;
 };
 
-function toProfileInput(profile: ProfileJson): Prisma.ProfileCreateInput {
+function toProfileInput(
+  profile: ProfileJson,
+): Prisma.ProfileCreateInput & { id: number } {
   return {
+    id: profile.id,
     name: profile.name,
     description: profile.description,
     githubUrl: profile.githubUrl,
