@@ -6,12 +6,11 @@ import { validate } from './env.validation.js';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true,
       envFilePath: ['.env.local', '.env'],
       validate,
     }),
   ],
   providers: [AppConfigService],
-  exports: [AppConfigService]
+  exports: [AppConfigService],
 })
 export class AppConfigModule {}
