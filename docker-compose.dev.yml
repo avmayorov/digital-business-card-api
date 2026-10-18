@@ -22,10 +22,11 @@ services:
         condition: service_healthy
     environment:
       PORT: 3000
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/digital_card
     volumes:
       - .:/app
       - /app/node_modules
-    command: sh -c "npm ci && npm run start:dev"
+    command: sh -c "npm ci && npm run prisma:generate && npm run prisma:deploy && npm run prisma:seed && npm run start:dev"
     ports:
       - '3000:3000'
 
