@@ -20,8 +20,9 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    env_file:
+      - .env
     environment:
-      PORT: 3000
       DATABASE_URL: postgresql://postgres:postgres@db:5432/digital_card
     volumes:
       - .:/app

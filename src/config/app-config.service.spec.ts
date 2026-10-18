@@ -1,12 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigModule } from '@nestjs/config';
 import { AppConfigService } from './app-config.service.js';
-import { DEFAULT_PORT } from './env.default.js';
+import {
+  DEFAULT_PORT,
+  DEFAULT_ENABLE_DEV_APOLLO_SANDBOX,
+} from './env.default.js';
 import { validate } from './env.validation.js';
 
 describe('AppConfigService', () => {
   const originalPort = process.env.PORT;
   const originalDatabaseUrl = process.env.DATABASE_URL;
+  const originalEnableDevApolloSandbox = process.env.ENABLE_DEV_APOLLO_SANDBOX;
   const TEST_DATABASE_URL = 'postgres://user:password@localhost:5432/test_db';
 
   beforeEach(() => {
@@ -24,6 +28,12 @@ describe('AppConfigService', () => {
       delete process.env.DATABASE_URL;
     } else {
       process.env.DATABASE_URL = originalDatabaseUrl;
+    }
+
+    if (originalEnableDevApolloSandbox === undefined) {
+      delete process.env.ENABLE_DEV_APOLLO_SANDBOX;
+    } else {
+      process.env.ENABLE_DEV_APOLLO_SANDBOX = originalEnableDevApolloSandbox;
     }
   });
 
@@ -72,5 +82,31 @@ describe('AppConfigService', () => {
     delete process.env.DATABASE_URL;
 
     await expect(createService()).rejects.toThrow();
+  });
+
+  it('returns default enableDevApolloSandbox when ENABLE_DEV_APOLLO_SANDBOX is not set', async () => {
+    delete process.env.ENABLE_DEV_APOLLO_SANDBOX;
+
+    const service = await createService();
+
+    expect(service.enableDevApolloSandbox).toBe(
+      DEFAULT_ENABLE_DEV_APOLLO_SANDBOX,
+    );
+  });
+
+  it('returns true when ENABLE_DEV_APOLLO_SANDBOX is "true"', async () => {
+    process.env.ENABLE_DEV_APOLLO_SANDBOX = 'true';
+
+    const service = await createService();
+
+    expect(service.enableDevApolloSandbox).toBe(true);
+  });
+
+  it('returns false when ENABLE_DEV_APOLLO_SANDBOX is "false"', async () => {
+    process.env.ENABLE_DEV_APOLLO_SANDBOX = 'false';
+
+    const service = await createService();
+
+    expect(service.enableDevApolloSandbox).toBe(false);
   });
 });

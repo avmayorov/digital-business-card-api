@@ -12,4 +12,8 @@ export class AppConfigService {
   get databaseUrl(): string {
     return this._config.getOrThrow<string>('DATABASE_URL');
   }
+
+  get enableDevApolloSandbox(): boolean {
+    return this._config.getOrThrow<boolean>('ENABLE_DEV_APOLLO_SANDBOX');
+  }
 }

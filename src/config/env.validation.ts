@@ -1,5 +1,6 @@
 import { plainToInstance } from 'class-transformer';
 import {
+  IsBoolean,
   IsInt,
   IsOptional,
   IsString,
@@ -7,7 +8,11 @@ import {
   Min,
   validateSync,
 } from 'class-validator';
-import { DEFAULT_PORT } from './env.default.js';
+import {
+  DEFAULT_PORT,
+  DEFAULT_ENABLE_DEV_APOLLO_SANDBOX,
+} from './env.default.js';
+import { ToBoolean } from './transformers/to-boolean.transform.js';
 
 class EnvironmentVariables {
   @IsOptional()
@@ -18,6 +23,11 @@ class EnvironmentVariables {
 
   @IsString()
   DATABASE_URL: string;
+
+  @IsOptional()
+  @IsBoolean()
+  @ToBoolean()
+  ENABLE_DEV_APOLLO_SANDBOX = DEFAULT_ENABLE_DEV_APOLLO_SANDBOX;
 }
 
 export function validate(config: Record<string, unknown>) {
