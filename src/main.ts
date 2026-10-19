@@ -1,4 +1,4 @@
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { filterLogLevels, Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module.js';
 import { AppConfigService } from './config/app-config.service.js';
@@ -9,6 +9,7 @@ async function bootstrap() {
   app.enableShutdownHooks();
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   const config = app.get(AppConfigService);
+  app.useLogger(filterLogLevels(config.logLevel));
   await app.listen(config.port);
   logger.log(`Server is started on ${config.port} port`);
 }

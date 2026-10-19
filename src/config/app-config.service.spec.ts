@@ -11,6 +11,7 @@ describe('AppConfigService', () => {
   const originalPort = process.env.PORT;
   const originalDatabaseUrl = process.env.DATABASE_URL;
   const originalEnableDevApolloSandbox = process.env.ENABLE_DEV_APOLLO_SANDBOX;
+  const originalLogLevel = process.env.LOG_LEVEL;
   const TEST_DATABASE_URL = 'postgres://user:password@localhost:5432/test_db';
 
   beforeEach(() => {
@@ -34,6 +35,12 @@ describe('AppConfigService', () => {
       delete process.env.ENABLE_DEV_APOLLO_SANDBOX;
     } else {
       process.env.ENABLE_DEV_APOLLO_SANDBOX = originalEnableDevApolloSandbox;
+    }
+
+    if (originalLogLevel === undefined) {
+      delete process.env.LOG_LEVEL;
+    } else {
+      process.env.LOG_LEVEL = originalLogLevel;
     }
   });
 
@@ -108,5 +115,21 @@ describe('AppConfigService', () => {
     const service = await createService();
 
     expect(service.enableDevApolloSandbox).toBe(false);
+  });
+
+  it('returns default logLevel when LOG_LEVEL is not set', async () => {
+    delete process.env.LOG_LEVEL;
+
+    const service = await createService();
+
+    expect(service.logLevel).toBe('log');
+  });
+
+  it('returns debug logLevel when LOG_LEVEL is "debug"', async () => {
+    process.env.LOG_LEVEL = 'debug';
+
+    const service = await createService();
+
+    expect(service.logLevel).toBe('debug');
   });
 });
