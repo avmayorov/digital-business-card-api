@@ -70,6 +70,11 @@ function toProfileInput(
 }
 
 async function main() {
+  if (await prisma.profile.count()) {
+    console.log(`Database is not empty`);
+    console.log(`Skip seed`);
+    return;
+  }
   const profiles = seedDataJson as unknown as ProfileJson[];
 
   const companies: (Prisma.CompanyCreateInput & {
